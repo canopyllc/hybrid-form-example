@@ -1,0 +1,8 @@
+FROM node:16
+
+WORKDIR /code
+
+COPY package.json package-lock.json ./
+
+# Install Node packages
+RUN npm ci

@@ -1,0 +1,80 @@
+version: '3.3'
+
+services:
+
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  redis:
+    image: redis:6.0.3
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  web:
+    image: epicserve/django-base-site:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    command: sh -c "rm -f .git/hooks/pre-commit && ln -s ../../config/git_hooks/pre-commit .git/hooks/pre-commit; python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
+
+    volumes:
+      - .:/code:cached
+
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - db
+      - redis
+
+    environment:
+      USE_DOCKER: 'on'
+      DJANGO_SETTINGS_MODULE: config.settings
+
+  worker:
+    image: epicserve/django-base-site:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    command: sh -c "celery -A config worker -l info"
+
+    volumes:
+      - .:/code:cached
+
+    depends_on:
+      - web
+
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings
+
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    working_dir: /code
+
+    command: sh -c "npm run watch"
+
+    volumes:
+      - .:/code
+      - node_data:/code/node_modules
+
+    ports:
+      - 35729:35729
+
+    environment:
+      NODE_ENV: development
+
+volumes:
+  postgres_data:
+  redis_data:
+  node_data:

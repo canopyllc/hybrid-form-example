@@ -1,0 +1,48 @@
+{
+  "name": "django-base-site",
+  "description": "Django Base Site",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "babel-loader": "^8.1.0",
+    "bootstrap": "^5.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.2.0",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "glob": "^7.1.6",
+    "jquery": "^3.5.1",
+    "mini-css-extract-plugin": "^2.6.1",
+    "minimist": ">=1.2.6",
+    "sass": "^1.39.0",
+    "popper.js": "^1.16.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "stylelint": "^13.6.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recess-order": "^2.1.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.18.0",
+    "stylelint-webpack-plugin": "^3.0.1",
+    "webpack": "^5.52.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-livereload-plugin": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epicserve/django-base-site.git"
+  },
+  "author": "Brent O'Connor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/epicserve/django-base-site/issues"
+  },
+  "homepage": "https://github.com/epicserve/django-base-site#readme",
+  "scripts": {
+    "build": "npx webpack",
+    "dev": "npx webpack --watch --progress",
+    "watch": "npx webpack --watch"
+  }
+}

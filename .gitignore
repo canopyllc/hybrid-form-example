@@ -1,0 +1,11 @@
+/*console.log
+/.coverage
+/.env
+/db.sqlite
+/docs/_build/
+/htmlcov
+/latest.dump
+/node_modules
+/public/static/dist
+.mypy_cache/
+.venv/
