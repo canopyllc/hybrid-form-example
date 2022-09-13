@@ -3,13 +3,23 @@ version: '3.3'
 services:
 
   db:
-    image: postgres:latest
+    container_name: db
+    image: mysql:oracle
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - db_data:/var/lib/mysql
+    command:
+      [
+        mysqld,
+        --character-set-server=utf8mb4,
+        --collation-server=utf8mb4_unicode_ci,
+      ]
     ports:
-      - 5432:5432
+      - '3306:3306'
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - MYSQL_DATABASE=hybrid_form
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER=hybrid_form
+      - MYSQL_PASSWORD
 
   redis:
     image: redis:6.0.3
@@ -18,12 +28,12 @@ services:
       - redis_data:/data
 
   web:
-    image: epicserve/django-base-site:latest
+    image: canopy/hybrid-form-example:latest
     build:
       context: .
       dockerfile: Dockerfile
 
-    command: sh -c "rm -f .git/hooks/pre-commit && ln -s ../../config/git_hooks/pre-commit .git/hooks/pre-commit; python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
 
     volumes:
       - .:/code:cached
@@ -40,7 +50,7 @@ services:
       DJANGO_SETTINGS_MODULE: config.settings
 
   worker:
-    image: epicserve/django-base-site:latest
+    image: canopy/hybrid-form-example:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -75,6 +85,6 @@ services:
       NODE_ENV: development
 
 volumes:
-  postgres_data:
+  db_data:
   redis_data:
   node_data:
