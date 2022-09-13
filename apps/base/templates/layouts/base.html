@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block title_tag %}<title>{% block title %}{% endblock %}{% if SITE_NAME %} - {{ SITE_NAME }}{% endif %}</title>{% endblock title_tag %}
+        {% block title_tag %}<title>{% block title %}{{ page_title }}{% endblock %}{% if SITE_NAME %} - {{ SITE_NAME }}{% endif %}</title>{% endblock title_tag %}
 
         {% block style %}
         <link rel="stylesheet" href="{% static 'dist/css/base.min.css' %}">
@@ -28,39 +28,33 @@
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light bg-faded">
 
-                    <a class="navbar-brand" href="{% url 'site_index' %}">{{ SITE_NAME }}</a>
+                    <a class="navbar-brand" href="{% url 'recipes:list' %}">{{ SITE_NAME }}</a>
 
                     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{% url 'site_index' %}">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
+{#                        <ul class="navbar-nav mr-auto">#}
+{#                            <li class="nav-item active">#}
+{#                                <a class="nav-link" href="{% url 'site_index' %}">Home</a>#}
+{#                            </li>#}
+{#                        </ul>#}
 
-                        <ul class="nav navbar-nav">
-                            {% if not user.is_authenticated %}
-                                <li><a href="{% url 'account_login' %}">Sign In</a></li>
-                            {% else %}
-                                <li class="nav-item dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {% firstof user.get_short_name user.get_username %} <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown-item"><a href="{% url 'account_change_name' %}">Account Settings</a></li>
-                                        {% if user.is_staff %}<li class="dropdown-item"><a href="{% url 'admin:index' %}">Administration</a></li>{% endif %}
-                                        <li class="dropdown-item"><a href="{% url 'account_logout' %}">Sign Out</a></li>
-                                    </ul>
-                                </li>
-                            {% endif %}
-                        </ul>
+{#                        <ul class="nav navbar-nav">#}
+{#                            {% if not user.is_authenticated %}#}
+{#                                <li><a href="{% url 'account_login' %}">Sign In</a></li>#}
+{#                            {% else %}#}
+{#                                <li class="nav-item dropdown">#}
+{#                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {% firstof user.get_short_name user.get_username %} <b class="caret"></b></a>#}
+{#                                    <ul class="dropdown-menu">#}
+{#                                        <li class="dropdown-item"><a href="{% url 'account_change_name' %}">Account Settings</a></li>#}
+{#                                        {% if user.is_staff %}<li class="dropdown-item"><a href="{% url 'admin:index' %}">Administration</a></li>{% endif %}#}
+{#                                        <li class="dropdown-item"><a href="{% url 'account_logout' %}">Sign Out</a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+{#                            {% endif %}#}
+{#                        </ul>#}
                     </div>
                 </nav>
             </div>
@@ -88,10 +82,10 @@
         {% block base_footer %}
         <div class="container">
 
-            <hr>
-            <footer>
-                <p>&copy; {{ SITE_NAME }} {% now "Y" %}</p>
-            </footer>
+{#            <hr>#}
+{#            <footer>#}
+{#                <p>&copy; {{ SITE_NAME }} {% now "Y" %}</p>#}
+{#            </footer>#}
 
         </div>
         {% endblock base_footer %}

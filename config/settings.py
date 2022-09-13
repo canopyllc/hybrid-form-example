@@ -171,7 +171,7 @@ SESSION_ENGINE = "redis_sessions.session"
 SESSION_REDIS = env.session_redis_url("CACHE_URL", default=CACHE_URL_DEFAULT)
 
 SITE_ID = 1
-SITE_NAME = "Django Base Site"
+SITE_NAME = "Hybrid Form Example"
 
 # DJANGO DEBUG TOOLBAR SETTINGS
 if DEBUG is True:
