@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "crispy_forms",
     "storages",
+    "apps.recipes",
 ]
 
 MIDDLEWARE = [
@@ -87,6 +88,11 @@ DATABASES = {
         "DATABASE_URL", default=f'sqlite:///{BASE_DIR.joinpath("db.sqlite")}', ssl_require=not DEBUG
     )
 }
+if "mysql" in DATABASES["default"]["ENGINE"]:
+    DATABASES["default"]["OPTIONS"] = {
+        "charset": "utf8mb4",
+        "sql_mode": "STRICT_ALL_TABLES",
+    }
 
 # See https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
