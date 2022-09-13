@@ -15,8 +15,3 @@ class RecipeForm(forms.ModelForm):
             "recipe_type",
             "meal_times",
         ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False

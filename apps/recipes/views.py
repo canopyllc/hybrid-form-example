@@ -13,8 +13,8 @@ class FormSuccessMixin:
 
 
 class StaticContextMixin:
-    def get_context_data(self):
-        data = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
         data.update(getattr(self, "static_context", {}))
         return data
 

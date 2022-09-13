@@ -3,6 +3,7 @@ import socket
 import sys
 
 import environs
+from django.forms.renderers import TemplatesSetting
 
 from apps.base.utils.env import env
 
@@ -40,8 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
     "apps.base",
+    "django.forms",
+    "rest_framework",
     "apps.accounts",
     "allauth",
     "allauth.account",
@@ -61,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 TEMPLATES = [
     {
