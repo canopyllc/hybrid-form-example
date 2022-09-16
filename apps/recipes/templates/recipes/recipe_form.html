@@ -1,9 +1,9 @@
 {% extends 'layouts/base.html' %}
-{% load forms %}
+{% load forms static %}
 
 {% block content %}
 
-  <form action="." method="post">
+  <form id="vue-form" action="." method="post">
     {% csrf_token %}
     {% hybrid_form form %}
     <div class="mt-4">
@@ -15,3 +15,11 @@
   </form>
 
 {% endblock content %}
+
+{% block script %}
+  {{ block.super }}
+  <script src="{% static 'dist/js/bundles/forms.min.js' %}"></script>
+  <script>
+    SetupForms();
+  </script>
+{% endblock %}
