@@ -1,0 +1,17 @@
+{% load utils %}
+<select-input
+  ref="{{ field.name }}"
+  name="{{ field.name }}"
+  label="{{ field.label}}"
+  :hide-label="{{ field.hide_label|js_boolean }}"
+  :model-value="{{ field.vue_value }}"
+  :required="{{ field.required|js_boolean }}"
+  :disabled="{{ field.disabled|js_boolean }}"
+  :options="{{ field.vue_options }}"
+  option-label="name"
+  option-value="value"
+  help-text="{{ field.help_text }}"
+  :clearable="true"
+  :multiple="{{ field.vue_multiple|js_boolean }}"
+  :errors="{{ field.vue_errors }}"
+></select-input>

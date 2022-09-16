@@ -1,0 +1,14 @@
+{% load utils %}
+<text-area-input
+  ref="{{ field.name }}"
+  name="{{ field.name }}"
+  label="{{ field.label }}"
+  help-text="{{ field.help_text }}"
+  :hide-label="{{ field.hide_label|js_boolean }}"
+  :model-value="{{ field.vue_value }}"
+  modifier="{{ field.modifier }}"
+  :rows="5"
+  :required="{{ field.required|js_boolean }}"
+  :disabled="{{ field.disabled|js_boolean }}"
+  :errors="{{ field.vue_errors }}"
+></text-area-input>

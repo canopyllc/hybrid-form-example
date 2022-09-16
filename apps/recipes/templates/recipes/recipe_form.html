@@ -1,10 +1,11 @@
 {% extends 'layouts/base.html' %}
+{% load forms %}
 
 {% block content %}
 
   <form action="." method="post">
     {% csrf_token %}
-    {% include "django/forms/base_form.html" with form=form %}
+    {% hybrid_form form %}
     <div class="mt-4">
       <button type="submit" class="btn btn-primary">Save</button>
       {% if object.pk %}

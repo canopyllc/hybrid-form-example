@@ -1,0 +1,5 @@
+{% if field.input_type == 'number' %}
+    {% include 'vue_widgets/number.html' %}
+{% else %}
+    {% include 'vue_widgets/text.html' %}
+{% endif %}
