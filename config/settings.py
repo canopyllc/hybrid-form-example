@@ -2,8 +2,9 @@ import os
 import socket
 import sys
 
-import environs
 from django.forms.renderers import TemplatesSetting
+
+import environs
 
 from apps.base.utils.env import env
 
@@ -64,7 +65,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
-FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 TEMPLATES = [
     {

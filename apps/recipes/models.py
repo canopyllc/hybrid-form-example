@@ -1,9 +1,11 @@
 from django.db import models
 from django.urls import reverse
 
+from apps.base.model_fields import PlainCharField, PlainTextField
+
 
 class BaseListModel(models.Model):
-    name = models.CharField(max_length=100)
+    name = PlainCharField(max_length=100)
 
     class Meta:
         abstract = True
@@ -30,9 +32,9 @@ class MealTime(BaseListModel):
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=100)
-    instructions = models.TextField(null=True, blank=True)
-    ingredients = models.TextField(null=True, blank=True)
+    name = PlainCharField(max_length=100)
+    instructions = PlainTextField(null=True, blank=True)
+    ingredients = PlainTextField(null=True, blank=True)
     recipe_type = models.ForeignKey("recipes.RecipeType", null=True, blank=True, on_delete=models.RESTRICT)
     meal_times = models.ManyToManyField("recipes.MealTime", blank=True)
 
