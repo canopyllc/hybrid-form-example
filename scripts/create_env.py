@@ -12,16 +12,18 @@ ENV_TEMPLATE = (
 )
 
 
-def get_random_password(length):
+def get_random_password(length: int) -> str:
     return "".join(random.sample("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", length))
 
 
-env_file_path = Path(__file__).parent.parent.joinpath('.env')
+env_file_path = Path(__file__).parent.parent.joinpath(".env")
 if env_file_path.is_file() is False:
-    env_text = ENV_TEMPLATE.format(**{
-        "mysql_password": get_random_password(18),
-        "mysql_root_password": get_random_password(18),
-        "secret_key": get_random_password(50),
-    })
-    with open(env_file_path, 'w') as f:
+    env_text = ENV_TEMPLATE.format(
+        **{
+            "mysql_password": get_random_password(18),
+            "mysql_root_password": get_random_password(18),
+            "secret_key": get_random_password(50),
+        }
+    )
+    with open(env_file_path, "w") as f:
         f.write(env_text)
