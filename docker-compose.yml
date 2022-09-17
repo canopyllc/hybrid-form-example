@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3"
 
 services:
 
@@ -7,20 +7,16 @@ services:
     image: mysql:oracle
     volumes:
       - db_data:/var/lib/mysql
-    command:
-      [
-        mysqld,
-        --character-set-server=utf8mb4,
-        --collation-server=utf8mb4_unicode_ci,
-      ]
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - '3306:3306'
     environment:
       - MYSQL_DATABASE=hybrid_form
-      - MYSQL_ROOT_PASSWORD
       - MYSQL_USER=hybrid_form
-      - MYSQL_PASSWORD
-
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+    env_file:
+      - .env
   redis:
     image: redis:6.0.3
     command: ["redis-server", "--appendonly", "yes"]
@@ -33,7 +29,7 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    command: sh -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
+    command: sh -c "./scripts/wait-for-it.sh -h db -p 3306 -t 0 && python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
 
     volumes:
       - .:/code:cached
@@ -55,7 +51,7 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    command: sh -c "celery -A config worker -l info"
+    command: sh -c "./scripts/wait-for-it.sh -h db -p 3306 -t 0 && celery -A config worker -l info"
 
     volumes:
       - .:/code:cached
