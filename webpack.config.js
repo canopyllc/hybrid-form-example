@@ -1,55 +1,33 @@
-// const webpack = require( 'webpack' );
-const path = require('path'),
-  { CleanWebpackPlugin } = require('clean-webpack-plugin'),
-  glob = require('glob'),
-  LiveReloadPlugin = require('webpack-livereload-plugin'),
-  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-  StylelintPlugin = require('stylelint-webpack-plugin'),
-  isDevMode = process.env.NODE_ENV === 'development',
-  paths = {
-    sassFiles: glob.sync('./src/scss/**/*.scss'),
-    jsFiles: glob.sync('./src/js/**/*.js'),
-    outputDir: path.join(__dirname, 'public/static/dist/'),
-  };
-
-function getEntries() {
-  const entries = {};
-
-  paths.sassFiles.forEach((srcFile) => {
-    const dstFile = srcFile.replace(/^\.\/src\/scss/, '/css').replace(/\.scss$/, '.min'),
-      fileName = srcFile.split('/').pop();
-
-    if (/^_/.test(fileName) === false) {
-      entries[dstFile] = srcFile;
-    }
-  });
-
-  paths.jsFiles.forEach((srcFile) => {
-    const dstFile = srcFile.replace(/^\.\/src/, '').replace('.js', '.min.js');
-    entries[dstFile] = srcFile;
-  });
-
-  return entries;
-}
+const webpack = require('webpack'),
+      path = require('path'),
+      glob = require('glob'),
+      {VueLoaderPlugin} = require('vue-loader'),
+      LiveReloadPlugin = require('webpack-livereload-plugin'),
+      MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+      StylelintPlugin = require('stylelint-webpack-plugin'),
+      ESLintPlugin = require('eslint-webpack-plugin'),
+      isDevMode = process.env.NODE_ENV === 'development',
+      paths = {
+        jsFiles: glob.sync('./src/js/bundles/**/*.js'),
+        outputDir: path.join(__dirname, 'public/static/dist/'),
+      };
 
 module.exports = {
   context: __dirname,
   mode: isDevMode ? 'development' : 'production',
-  entry: getEntries,
+  entry: paths.jsFiles.reduce((entries, filepath) => ({
+    ...entries,
+    [filepath.replace(/^\.\/src\/js\/bundles/, '').replace('.js', '')]: filepath,
+  }), {}),
   output: {
     path: paths.outputDir,
-    filename: '[name]',
+    filename: 'js[name].min.js',
   },
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.(vue|js)$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          failOnError: true,
-        },
+        test: /\.vue$/,
+        loader: 'vue-loader',
       },
       {
         test: /\.js$/,
@@ -71,24 +49,32 @@ module.exports = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+      },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['css/', 'js/'],
-      cleanAfterEveryBuildPatterns: ['css/**/*.min'],
-    }),
+    new VueLoaderPlugin(),
     new LiveReloadPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: 'css[name].min.css',
+      chunkFilename: 'css[id].min.css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
     new StylelintPlugin({
       context: 'src/scss',
       fix: true,
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'vue'],
+    }),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false,
     }),
   ],
   // Necessary for file changes inside docker node volume to get picked up
@@ -98,8 +84,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue: isDevMode ? 'vue/dist/vue.js' : 'vue/dist/vue.min.js',
+      vue: 'vue/dist/vue.esm-bundler.js',
+      pinia: 'pinia/dist/pinia.esm-browser.js',
+      '@': path.resolve(__dirname, 'src'),
     },
-    extensions: ['.js'],
+    extensions: ['.js', '.vue', '.scss'],
   },
 };

@@ -92,6 +92,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-unresolved
 import vSelect from 'vue-select';
 import searchMixin from '@/js/mixins/searchMixin';
 import {isObject} from '@/js/utils/javascript';

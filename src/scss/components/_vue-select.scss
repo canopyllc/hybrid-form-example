@@ -1,0 +1,86 @@
+@import "~vue-select/dist/vue-select.css";
+// @import "../config";
+
+:root {
+  --vs-disabled-bg: #{$input-disabled-bg};
+}
+
+.v-select {
+  background-color: white;
+  border-radius: $border-radius;
+}
+
+.vs__open-indicator {
+  cursor: pointer;
+}
+
+// disabled elements in dropdown
+.vs--disabled {
+  .vs__search {
+    background-color: $input-disabled-bg;
+  }
+
+  .vs__open-indicator,
+  .vs__clear {
+    background-color: transparent;
+  }
+}
+
+.vs__dropdown-toggle {
+  min-height: $input-height; // borrow from .form-control
+  border: 1px solid $input-border-color;
+
+  .vs--disabled {
+    background-color: $input-disabled-bg;
+    border-color: $input-disabled-border-color;
+  }
+
+  .is-invalid & {
+    border-color: $danger;
+
+    @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075)); // Redeclare so transitions work
+  }
+
+  .is-invalid.is-focused & {
+    border-color: darken($danger, 10%);
+    $shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px lighten($danger, 20%);
+
+    @include box-shadow($shadow);
+  }
+}
+
+.vs__dropdown-option {
+  white-space: normal;
+}
+
+// change background of selected item, but not on hover
+.vs__dropdown-option--selected:not(.vs__dropdown-option--highlight) {
+  background: $dropdown-link-hover-bg;
+}
+
+// Selected elements
+.vs__selected {
+  overflow: hidden;
+  color: inherit; // allow for contextual colors
+  text-overflow: ellipsis;
+  background: $gray-100;
+  border: 1px solid $input-border-color;
+  border-radius: $border-radius;
+  // only add hover if the field is not disabled
+  .v-select:not(.vs--disabled) &:not(.vs__selected--disabled):hover {
+    cursor: pointer;
+  }
+}
+
+.vs__selected--disabled {
+  .vs__deselect {
+    display: none;
+  }
+
+  background-color: $input-disabled-bg;
+}
+
+// Placeholder: Make sure the placeholder is the right color
+.vs__search::placeholder {
+  color: $input-placeholder-color !important;
+}
