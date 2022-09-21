@@ -76,9 +76,13 @@ lint_types: ## Lint Python types
 lint: lint_js lint_sass lint_py lint_imports lint_types ## Lint Javascript, SASS, Python, Python imports and Python types
 
 .PHONY: remove_coverage_data
-remove_coverage_data: ## Remove Django test coverage data 
+remove_coverage_data: ## Remove Django test coverage data
 	@rm -f .coverage
 	@rm -rf htmlcov
+
+.PHONY: reset
+reset: ## Reset everything to a fresh install
+	@./scripts/reset.sh
 
 .PHONY: requirements
 requirements: ## Run pip-compile to compile the requirements into the requirements*.txt files
