@@ -7,7 +7,7 @@
     {% csrf_token %}
     {% hybrid_form form %}
     <div class="mt-4">
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary me-2">Save</button>
       {% if object.pk %}
         <a href="{% url 'recipes:delete' object.pk %}" class="btn btn-danger">Delete</a>
       {% endif %}
