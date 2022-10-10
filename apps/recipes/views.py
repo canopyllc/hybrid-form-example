@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+
 from apps.recipes.forms import RecipeForm
 from apps.recipes.models import Recipe
 

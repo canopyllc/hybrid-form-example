@@ -1,0 +1,14 @@
+{% load utils %}
+<radio-group-input
+  ref="{{ field.name }}"
+  name="{{ field.name }}"
+  label="{{ field.label }}"
+  help-text="{{ field.help_text }}"
+  :model-value="{{ field.vue_value }}"
+  :required="{{ field.required|js_boolean }}"
+  :disabled="{{ field.disabled|js_boolean }}"
+  :options="{{ field.vue_options }}"
+  option-label="name"
+  option-value="value"
+  :errors="{{ field.vue_errors }}"
+></radio-group-input>

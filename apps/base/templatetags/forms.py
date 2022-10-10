@@ -31,7 +31,10 @@ def hybrid_field(field):
     # Update widget properties to work with vue_widget templates
     widget = field.field.widget
     widget.get_context = lambda name, value, attrs: {"field": field}
-    widget.template_name = widget.template_name.replace("django/forms/widgets", "hybrid_forms/widgets")
+    if hasattr(field.field, "base_template"):
+        widget.template_name = field.field.base_template
+    else:
+        widget.template_name = widget.template_name.replace("django/forms/widgets", "hybrid_forms/widgets")
     field.input_type = getattr(widget, "input_type", "")
     field.help_text = field.help_text or ""
     return mark_safe(field.as_widget())
