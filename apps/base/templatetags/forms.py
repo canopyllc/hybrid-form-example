@@ -17,6 +17,12 @@ def hybrid_form(form):
 @register.simple_tag
 def hybrid_field(field):
     field.vue_value = field.value() if field.value() is not None else ""
+    # TODO: Fix the static defined value for the is_diet_friendly field
+    if field.name == "is_diet_friendly":
+        if isinstance(field.vue_value, bool):
+            field.vue_value = str(field.vue_value).lower()
+        elif field.vue_value == "":
+            field.vue_value = "unknown"
     if isinstance(field.vue_value, str):
         field.vue_value = json.dumps(field.vue_value)
     choices = getattr(field.field.widget, "choices", None)
