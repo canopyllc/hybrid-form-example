@@ -17,6 +17,12 @@ def hybrid_form(form):
 @register.simple_tag
 def hybrid_field(field):
     field.vue_value = field.value() if field.value() is not None else ""
+    # TODO: Fix the static defined value for the is_diet_friendly field
+    if field.name == "is_diet_friendly":
+        if isinstance(field.vue_value, bool):
+            field.vue_value = str(field.vue_value).lower()
+        elif field.vue_value == "":
+            field.vue_value = "unknown"
     if isinstance(field.vue_value, str):
         field.vue_value = json.dumps(field.vue_value)
     choices = getattr(field.field.widget, "choices", None)
@@ -31,7 +37,10 @@ def hybrid_field(field):
     # Update widget properties to work with vue_widget templates
     widget = field.field.widget
     widget.get_context = lambda name, value, attrs: {"field": field}
-    widget.template_name = widget.template_name.replace("django/forms/widgets", "hybrid_forms/widgets")
+    if hasattr(field.field, "base_template"):
+        widget.template_name = field.field.base_template
+    else:
+        widget.template_name = widget.template_name.replace("django/forms/widgets", "hybrid_forms/widgets")
     field.input_type = getattr(widget, "input_type", "")
     field.help_text = field.help_text or ""
     return mark_safe(field.as_widget())

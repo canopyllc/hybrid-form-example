@@ -20,6 +20,15 @@
   {{ block.super }}
   <script src="{% static 'dist/js/forms.min.js' %}"></script>
   <script>
-    SetupForms({csrfToken: '{{ csrf_token }}'});
+    SetupForms({
+      csrfToken: '{{ csrf_token }}',
+      conditional: {
+      {{ form.diet_types.name }}: {
+          parent: '{{ form.is_diet_friendly.name }}',
+          event: 'change',
+          condition: (value) => value === 'true',
+        },
+      },
+    });
   </script>
 {% endblock %}
