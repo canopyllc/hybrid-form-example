@@ -31,7 +31,6 @@ def index(request):
 urlpatterns += [
     path("", index, name="index"),
     path("recipes/", include("apps.recipes.urls", namespace="recipes")),
-    path("api-auth/", include("rest_framework.urls")),
     path("api/accounts/", include(accounts_router.urls)),
     path("500/", http_500),
     path("404/", http_404),
