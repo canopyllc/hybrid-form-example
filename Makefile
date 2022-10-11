@@ -49,8 +49,13 @@ format_py: ## Auto format Python code using black
 	@echo "Formatting code using black ..."
 	@$(PYTHON_CMD_PREFIX) black .
 
+.PHONY: format_js
+format_js: ## Format JS code
+	@echo "Formatting Javascript code..."
+	@$(NODE_CMD_PREFIX) npm run format-js
+
 .PHONY: format
-format: format_imports format_py ## Auto format Python code using isort and black
+format: format_js format_imports format_py ## Auto format Python code using isort and black
 
 .PHONY: lint_py
 lint_py: ## Lint Python code flake8
@@ -62,18 +67,18 @@ lint_imports: ## Lint Python imports with isort
 	@echo "Checking python imports ..."
 	@$(PYTHON_CMD_PREFIX) isort --check-only --diff .
 
+.PHONY: lint_js
+lint_js: ## Lint Javascript code with eslint
+	@echo "Checking Javascript code using eslint ..."
+	@$(NODE_CMD_PREFIX) npm run lint-js
+
 .PHONY: lint_sass
 lint_sass: ## Lint SASS code with stylelint
 	@echo "Checking SASS code using stylelint ..."
 	@$(NODE_CMD_PREFIX) npx stylelint ./src/scss/
 
-.PHONY: lint_types
-lint_types: ## Lint Python types
-	@echo "Checking python types ..."
-	@$(PYTHON_CMD_PREFIX) mypy .
-
 .PHONY: lint
-lint: lint_js lint_sass lint_py lint_imports lint_types ## Lint Javascript, SASS, Python, Python imports and Python types
+lint: lint_js lint_sass lint_py lint_imports ## Lint Javascript, SASS, Python, and Python imports
 
 .PHONY: remove_coverage_data
 remove_coverage_data: ## Remove Django test coverage data

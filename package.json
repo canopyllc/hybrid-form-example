@@ -80,6 +80,8 @@
   "scripts": {
     "build": "npx webpack",
     "dev": "npx webpack --watch --progress",
-    "watch": "npx webpack --watch"
+    "watch": "npx webpack --watch",
+    "lint-js": "npx eslint .",
+    "format-js": "npx eslint --fix ."
   }
 }
