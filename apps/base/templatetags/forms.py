@@ -16,6 +16,15 @@ def hybrid_form(form):
 
 @register.simple_tag
 def hybrid_field(field):
+    """
+    WARNING: We're using mark_safe in this example for simplicity and also because the model is either using
+    `apps.base.model_fields.PlainTextField` or `apps.base.model_fields.PlainCharField` which strips tags that could be
+    used in a XSS attach. Please be mindful of [security][1] whenever using mark_safe(). Using [bleach][2] is also
+    a good way to sanitize and clean user data.
+
+    [1]: https://docs.djangoproject.com/en/3.2/topics/security/
+    [2]: https://github.com/mozilla/bleach
+    """
     field.vue_value = field.value() if field.value() is not None else ""
     if field.widget_type == "radioselect":
         if isinstance(field.vue_value, bool):
