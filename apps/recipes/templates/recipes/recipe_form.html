@@ -5,7 +5,9 @@
 
   <form id="vue-form" action="." method="post">
     {% csrf_token %}
-    {% hybrid_form form %}
+    <div class="section">
+      {% hybrid_form form %}
+    </div>
     <div class="mt-4">
       <button type="submit" class="btn btn-primary me-2">Save</button>
       {% if object.pk %}

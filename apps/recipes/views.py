@@ -23,6 +23,10 @@ class RecipeListView(StaticContextMixin, ListView):
     model = Recipe
     static_context = {"page_title": "Recipes"}
 
+    def get_queryset(self):
+        result = Recipe.objects.prefetch_related("recipe_type", "meal_times")
+        return result
+
 
 class RecipeCreateView(StaticContextMixin, FormSuccessMixin, CreateView):
     model = Recipe

@@ -2,13 +2,43 @@
 
 {% block content %}
 
-  <div class="d-flex flex-row-reverse mb-2"><a href="{% url 'recipes:create' %}" class="btn btn-primary">Create</a></div>
-  <table class="table table-striped table-condensed">
-    {% for object in object_list %}
-      <tr>
-        <td><a href="{% url "recipes:update" object.pk %}">{{ object }}</a></td>
-      </tr>
-    {% endfor %}
-  </table>
+
+  {% if not object_list %}
+    <div class="rounded bg-light py-5 px-3 text-center mb-2">
+      <h2 class="mb-5">Lets get cooking!</h2>
+      <a href="{% url 'recipes:create' %}" class="btn btn-primary mb-3">Create a recipe</a>
+    </div>
+  {% else %}
+    <div class="d-flex flex-row-reverse mb-2">
+      <a href="{% url 'recipes:create' %}" class="btn btn-primary">Create</a>
+    </div>
+    <table class="table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Meal Times</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+            <td>
+              <a href="{% url "recipes:update" object.pk %}">{{ object }}</a>
+            </td>
+            <td>
+              {{ object.recipe_type }}
+            </td>
+            <td>
+              {% for meal_time in object.meal_times.all %}
+                <span class="badge bg-secondary">{{ meal_time }}</span>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
 
 {% endblock content %}
