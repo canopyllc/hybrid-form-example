@@ -1,6 +1,14 @@
 @import '~bootstrap/scss/bootstrap';
-@import "components/vue-select";
 
+body {
+  padding-bottom: 100px;
+}
+
+// ITCSS components
+@import "components/vue-select";
+@import "components/input";
+
+// Classes that would go in a better place if this was a real app!
 .navbar {
   margin-bottom: 20px;
 }

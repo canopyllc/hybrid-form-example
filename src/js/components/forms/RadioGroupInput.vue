@@ -24,19 +24,6 @@
           :for="optionId(index, fieldId)"
           v-html="option[optionLabel]"
         />
-        <component
-          :is="getComponent(option.sub_field.component || 'text')"
-          v-if="option.sub_field"
-          v-bind="option.sub_field.inputProps"
-          :key="index"
-          class="d-inline-block w-auto ms-1 mb-0"
-          hide-label
-          :disabled="!isOptionChecked(option)"
-          :name="option.sub_field.name"
-          :placeholder="option.sub_field.placeholder"
-          :model-value="isOptionChecked(option) ? getSubfieldValue(option) : null"
-          @input="onInput($event, option.sub_field.name)"
-        />
       </div>
       <div v-if="helpText" :id="`${fieldId}-help-text`" class="form-text c-input__help-text">
         {{ helpText }}
@@ -56,12 +43,11 @@
 import formInputOptions from '@/js/mixins/formInputOptions';
 import formInput from '@/js/mixins/formInput';
 import conditionalField from '@/js/mixins/conditionalField';
-import otherOptions from '@/js/mixins/otherOptions';
 import {isObject} from '@/js/utils/javascript';
 
 export default {
   name: 'RadioGroupInput',
-  mixins: [formInput, formInputOptions, conditionalField, otherOptions],
+  mixins: [formInput, formInputOptions, conditionalField],
   emits: ['update:modelValue'],
   computed: {
     isLocalValueObject() {

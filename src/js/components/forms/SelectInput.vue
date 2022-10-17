@@ -29,11 +29,9 @@
         :disabled="disabled"
         :multiple="multiple"
         :placeholder="placeholder"
-        :options="localOptions"
-        :filterable="optionsUrl === '' /* Levi added to support instances WITH an options url - can modify but keep as a condition */"
+        :options="options"
         :close-on-select="closeOnSelect"
         :clearable="clearable"
-        :searchable="searchable"
         :reduce="reduce"
         :get-option-label="formatSelectedOptionLabel"
         :class="inputClass"
@@ -46,7 +44,7 @@
         @search="onSearch"
       >
         <template #no-options>
-          <span>{{ noOptionsText }}</span>
+          <span>Sorry, no matching options.</span>
         </template>
         <template v-if="multiple && removeMultiSelectChevron" #open-indicator>
           <!-- This is the least invasive way to remove the chevron if its a multi-select -->
@@ -56,23 +54,6 @@
           <span :class="{ group: option.is_group }" v-html="formatOptionLabel(option)" />
         </template>
       </v-select>
-
-      <!-- TEXT INPUT FOR SUBFIELD HERE !-->
-      <component
-        :is="getComponent(optionSubfield.component || 'text')"
-        v-bind="optionSubfield.inputProps"
-        v-if="localValueHasSubfield"
-        class="mt-2 mb-0"
-        data-test-key="select-subfield"
-        :name="`${optionSubfield.name}${otherSuffix !== undefined ? `_${otherSuffix}` : ''}`"
-        :placeholder="optionSubfield.placeholder"
-        :disabled="disabled"
-        :model-value="subfieldLocalValue || optionSubfield.value"
-        :errors="errors"
-        hide-errors
-        hide-label
-        @input="onInput"
-      />
 
       <div v-if="helpText" :id="`${fieldId}-help-text`" class="form-text c-input__help-text">
         {{ helpText }}
@@ -94,10 +75,8 @@
 <script>
 // eslint-disable-next-line import/no-unresolved
 import vSelect from 'vue-select';
-import searchMixin from '@/js/mixins/searchMixin';
 import {isObject} from '@/js/utils/javascript';
 import formInput from '@/js/mixins/formInput';
-import otherOptions from '@/js/mixins/otherOptions';
 import conditionalField from '@/js/mixins/conditionalField';
 
 export default {
@@ -105,8 +84,16 @@ export default {
   components: {
     vSelect,
   },
-  mixins: [formInput, searchMixin, otherOptions, conditionalField],
+  mixins: [formInput, conditionalField],
   props: {
+    /**
+     * An array of strings or objects to be used as dropdown choices.
+     * @type {Array}
+     */
+    options: {
+      type: Array,
+      default: () => [],
+    },
     /**
      * Tells vue-select what key to use when generating option
      * labels when each `option` is an object.

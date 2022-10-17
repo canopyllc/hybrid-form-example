@@ -1,0 +1,45 @@
+.c-input {
+  margin-bottom: $spacer;
+}
+
+.c-input__errors {
+  @extend .invalid-feedback;
+
+  display: block;
+}
+
+.c-input__help-text {
+  display: block;
+  // margin-top: $spacer-1;
+}
+
+.c-input__inner {
+  position: relative;
+}
+
+//
+// MODIFIERS
+//
+
+// Checkbox/Radio input
+//
+// CheckboxInput.vue
+// RadioGroupInput.vue
+// RadioButtonGroupInput.vue
+.c-input--checkbox,
+.c-input--checkbox-group,
+.c-input--radio-group,
+.c-input--radio-btn-group {
+  // the label is cursor pointer from form-check-label
+  [type="checkbox"],
+  [type="radio"] {
+    cursor: pointer;
+  }
+}
+
+// Checkbox Input List/Group
+.c-input--checkbox-group {
+  .c-input--checkbox {
+    margin-bottom: $form-check-margin-bottom;
+  }
+}

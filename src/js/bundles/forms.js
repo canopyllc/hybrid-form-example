@@ -2,7 +2,6 @@ import {createApp} from 'vue';
 import SelectInput from '@/js/components/forms/SelectInput';
 import TextInput from '@/js/components/forms/TextInput';
 import NumberInput from '@/js/components/forms/NumberInput';
-import RichTextInput from '@/js/components/forms/RichTextInput';
 import TextareaInput from '@/js/components/forms/TextareaInput';
 import RadioGroupInput from '@/js/components/forms/RadioGroupInput';
 
@@ -13,7 +12,6 @@ window.SetupForms = ({csrfToken, conditional = true, urls = {}} = {}) => {
           SelectInput,
           TextInput,
           NumberInput,
-          RichTextInput,
           RadioGroupInput,
         ];
 
